@@ -1,4 +1,4 @@
-scripts
+script
 =======
 
 Collection of Linux scripts.
