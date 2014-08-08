@@ -15,7 +15,7 @@ my $tmux_info = `tmux info`;
 $tmux_info =~ m/.*/m or die;
 
 my $start_time = $&;
-$start_time =~ s/started //;
+$start_time =~ s/.*started //;
 
 my ($wd, $mon, $day, $hr, $min, $sec, $yr) = split /[\ :]+/, $start_time;
 
