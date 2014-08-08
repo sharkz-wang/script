@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Time::Local;
+
+my %mon_num = (
+		"Jan" => 0, "Feb" => 1, "Mar" => 2, "Apr" => 3,
+		"May" => 4, "Jun" => 5, "Jul" => 6, "Aug" => 7,
+		"Sep" => 8, "Oct" => 9, "Nov" => 10, "Dec" => 11
+		);
+
+my $tmux_info = `tmux info`;
+$tmux_info =~ m/.*/m or die;
+
+my $start_time = $&;
+$start_time =~ s/started //;
+
+my ($wd, $mon, $day, $hr, $min, $sec, $yr) = split /[\ :]+/, $start_time;
+
+my $len = time() - timelocal($sec, $min, $hr, $day, $mon_num{$mon}, $yr);
+
+my ($upday, $uphr, $upmin, $upsec);
+{
+	use integer;
+	($upday, $uphr, $upmin, $upsec) = ($len/86400, ($len%86400)/3600, ($len%3600)/60, ($len%60));
+}
+
+if( $upday > 0 ) {
+	if( $upday == 1) {
+		printf('%d day %02d:%02d:%02d', $upday, $uphr, $upmin, $upsec);
+	}
+	else {
+		printf('%d days %02d:%02d:%02d', $upday, $uphr, $upmin, $upsec);
+	}
+}
+
+else {
+	printf('%02d:%02d:%02d', $uphr, $upmin, $upsec);
+}
