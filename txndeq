@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ ! -d ${HOME}/.txnotify ]
+then
+	mkdir ${HOME}/.txnotify
+fi
+
+rm -rf ~/.txnotify/"`ls -t ~/.txnotify | head -n 1`"

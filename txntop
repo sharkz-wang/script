@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ ! -d ${HOME}/.txnotify ]
+then
+	mkdir ${HOME}/.txnotify
+fi
+
+if [ "$(ls -t ~/.txnotify)" == "" ]
+then
+	echo "#[fg=colour244]empty"
+else
+	ls -t ~/.txnotify | head -n 1
+fi
