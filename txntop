@@ -1,5 +1,12 @@
 #!/bin/bash
 
+SHOW_WINDOW_INFO=false
+
+if [ "$1" == "--window-id" ]
+then
+	SHOW_WINDOW_INFO=true
+fi
+
 if [ ! -d ${HOME}/.txnotify ]
 then
 	mkdir ${HOME}/.txnotify
@@ -10,7 +17,12 @@ then
 	echo "#[fg=colour244]empty"
 else
 	top_entry=$(ls -t ~/.txnotify | head -n 1)
-	fbirth_date=$(stat -c %w ~/.txnotify/${top_entry} | \
-		sed 's/\([0-9]\+\)-\([0-9]\+\)-\([0-9]\+\)\W\([0-9]\+\):\([0-9]\+\):\([0-9]\+\).*/\2\/\3 \4:\5:\6/')
-	echo "#[fg=colour81]$fbirth_date #[fg=colour252]| #[fg=colour118]$top_entry"
+	if ( $SHOW_WINDOW_INFO )
+	then
+		cat ~/.txnotify/${top_entry} | perl -0777 -pe 's/session id:\s(\d+)\nwindow id:\s(\d+)/$1:$2/'
+	else
+		fbirth_date=$(stat -c %w ~/.txnotify/${top_entry} | \
+			sed 's/\([0-9]\+\)-\([0-9]\+\)-\([0-9]\+\)\W\([0-9]\+\):\([0-9]\+\):\([0-9]\+\).*/\2\/\3 \4:\5:\6/')
+		echo "#[fg=colour81]$fbirth_date#[fg=colour252]|#[fg=colour118]$top_entry"
+	fi
 fi

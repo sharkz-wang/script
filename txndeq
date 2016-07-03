@@ -5,4 +5,7 @@ then
 	mkdir ${HOME}/.txnotify
 fi
 
-rm -rf ~/.txnotify/"`ls -t ~/.txnotify | head -n 1`"
+top_entry=$(ls -t ~/.txnotify | head -n 1)
+
+cat ~/.txnotify/${top_entry} | perl -0777 -pe 's/session id:\s(\d+)\nwindow id:\s(\d+)/$1:$2/'
+rm -rf ~/.txnotify/${top_entry}

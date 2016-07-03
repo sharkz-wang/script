@@ -5,4 +5,5 @@ then
 	mkdir ${HOME}/.txnotify
 fi
 
-touch ~/.txnotify/"$1"
+tmux display-message -p "session id: #S" >~/.txnotify/"$1"
+tmux display-message -p "window id: #I" >>~/.txnotify/"$1"
