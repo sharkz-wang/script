@@ -11,11 +11,7 @@ my %mon_num = (
 		"Sep" => 8, "Oct" => 9, "Nov" => 10, "Dec" => 11
 		);
 
-my $tmux_info = `tmux info`;
-$tmux_info =~ m/.*/m or die;
-
-my $start_time = $&;
-$start_time =~ s/.*started //;
+my $start_time = localtime(`tmux display-message -p -F '#{session_created}'`);
 
 my ($wd, $mon, $day, $hr, $min, $sec, $yr) = split /[\ :]+/, $start_time;
 
